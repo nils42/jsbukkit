@@ -1,4 +1,8 @@
-from paver.easy import *
+'''
+    Paver file for jsbukkit
+'''
+
+from paver.easy import task, path, needs, options
 from glob import iglob
 from shutil import rmtree, copyfileobj, copy
 from tarfile import TarFile
@@ -7,6 +11,7 @@ from re import escape
 from os import remove, chdir, makedirs
 
 try:
+    # pylint: disable=E0611,W0611
     from subprocess import check_output
 except ImportError:
     import subprocess
@@ -20,7 +25,7 @@ except ImportError:
         Source: https://gist.github.com/1027906
         """
         process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-        output, unused_err = process.communicate()
+        output, _ = process.communicate()
         retcode = process.poll()
         if retcode:
             cmd = kwargs.get("args")
@@ -66,20 +71,20 @@ def build():
     ''' Build '''
 
     # Build app.js
-    for path in (output_js_lib_dir, output_css_dir, output_img_dir):
-        makedirs(path)
+    for dirpath in (output_js_lib_dir, output_css_dir, output_img_dir):
+        makedirs(dirpath)
 
     with open(output_js_dir + 'app.js', 'w') as appjs:
         copyfileobj(open(src_dir + 'app.js', 'r'), appjs)
 
-        for path in iglob(hbs_dir + '*.hbs'):
-            with open(path, 'r') as tpl:
+        for tplpath in iglob(hbs_dir + '*.hbs'):
+            with open(tplpath, 'r') as tpl:
                 tpl_str = escape(tpl.read())
-                tpl_fmt = 'Em.TEMPLATES["%s"] = Em.Handlebars.compile("%s");' % (splitext(basename(path))[0], tpl_str)
-                appjs.write(tpl_fmt)
+                tpl_fmt = 'Em.TEMPLATES["%s"] = Em.Handlebars.compile("%s");'
+                appjs.write(tpl_fmt % (splitext(basename(tplpath))[0], tpl_str))
 
-        for path in js_dirs:
-            for filename in iglob(src_dir + path + '*.js'):
+        for jsdir in js_dirs:
+            for filename in iglob(src_dir + jsdir + '*.js'):
                 copyfileobj(open(filename, 'r'), appjs)
 
         copyfileobj(open(src_dir + 'router.js', 'r'), appjs)
@@ -87,20 +92,20 @@ def build():
     copy('config.js', output_js_dir)
 
     # copy html
-    for path in iglob(src_dir + 'html/*.html'):
-        copy(path, output_dir)
+    for htmlpath in iglob(src_dir + 'html/*.html'):
+        copy(htmlpath, output_dir)
 
     # Copy 3rd party libs into place
-    for path in iglob(src_dir + 'lib/*.js'):
-        copy(path, output_js_lib_dir)
+    for libpath in iglob(src_dir + 'lib/*.js'):
+        copy(libpath, output_js_lib_dir)
 
     # Copy css
-    for path in iglob(src_dir + 'css/*.css'):
-        copy(path, output_css_dir)
+    for csspath in iglob(src_dir + 'css/*.css'):
+        copy(csspath, output_css_dir)
 
     # Copy images
-    for path in iglob(src_dir + 'img/*'):
-        copy(path, output_img_dir)
+    for imgpath in iglob(src_dir + 'img/*'):
+        copy(imgpath, output_img_dir)
 
 @task
 @needs(['build'])
