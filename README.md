@@ -11,7 +11,9 @@ Copy config.js.dist to config.js and replace all the dummy values to match your 
 Build
 ========
 
-    paver build
+```bash
+paver build
+```
 
 License
 ========
