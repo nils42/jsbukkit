@@ -1,0 +1,7 @@
+CONFIG = {
+    host: 'BUKKIT_HOSTNAME',
+    port: 'JSONAPI_HTTP_PORT',
+    username: 'USERNAME',
+    password: 'PASSWORD',
+    salt: 'SALT'
+};
