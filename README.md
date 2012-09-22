@@ -1,0 +1,4 @@
+jsbukkit
+========
+
+Bukkit manager
