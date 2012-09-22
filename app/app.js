@@ -13,5 +13,3 @@ Em.info = function(message, test) {
         Em.Logger.log("INFO: " + message);
     }
 };
-
-App.Templates = {};
