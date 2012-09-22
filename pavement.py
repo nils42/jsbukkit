@@ -4,28 +4,32 @@ from shutil import rmtree, copyfileobj, copy
 from tarfile import TarFile
 from os.path import basename, splitext
 from re import escape
-import os
-import subprocess
+from os import remove, chdir, makedirs
 
-def check_output(*popenargs, **kwargs):
-    """Run command with arguments and return its output as a byte string.
+try:
+    from subprocess import check_output
+except ImportError:
+    import subprocess
+    def check_output(*popenargs, **kwargs):
+        """Run command with arguments and return its output as a byte string.
 
-    Backported from Python 2.7 as it's implemented as pure python on stdlib.
+        Backported from Python 2.7 as it's implemented as pure python on stdlib.
 
-    >>> check_output(['/usr/bin/python', '--version'])
-    Python 2.6.2
-    """
-    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode:
-        cmd = kwargs.get("args")
-        if cmd is None:
-            cmd = popenargs[0]
-        error = subprocess.CalledProcessError(retcode, cmd)
-        error.output = output
-        raise error
-    return output
+        >>> check_output(['/usr/bin/python', '--version'])
+        Python 2.6.2
+        Source: https://gist.github.com/1027906
+        """
+        process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
+        output, unused_err = process.communicate()
+        retcode = process.poll()
+        if retcode:
+            cmd = kwargs.get("args")
+            if cmd is None:
+                cmd = popenargs[0]
+            error = subprocess.CalledProcessError(retcode, cmd)
+            error.output = output
+            raise error
+        return output
 
 options(
     setup=dict(
@@ -54,7 +58,7 @@ def clean():
     if path(output_dir).exists():
         rmtree(output_dir)
     for filename in iglob(build_dir + 'jsbukkit*.tar.gz'):
-        os.remove(filename)
+        remove(filename)
 
 @task
 @needs(['clean'])
@@ -63,7 +67,7 @@ def build():
 
     # Build app.js
     for path in (output_js_lib_dir, output_css_dir, output_img_dir):
-        os.makedirs(path)
+        makedirs(path)
 
     with open(output_js_dir + 'app.js', 'w') as appjs:
         copyfileobj(open(src_dir + 'app.js', 'r'), appjs)
@@ -104,9 +108,10 @@ def archive():
     ''' create tar.gz archive '''
     tarpath = build_dir + 'jsbukkit.tar.gz'
     if path(tarpath).exists():
-        os.remove(tarpath)
+        remove(tarpath)
     tar = TarFile.open(tarpath, 'w:gz')
-    os.chdir(build_dir)
+    chdir(build_dir)
     tar.add('jsbukkit')
     tar.close()
+
 
