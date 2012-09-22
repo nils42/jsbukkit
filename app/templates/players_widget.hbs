@@ -1,0 +1,6 @@
+<h4>Players ({{controller.length}})</h4>
+<ul class="unstyled">
+    {{#each player in controller}}
+    <li><a {{action gotoPlayer player}}>{{player.name}}</a></li>
+    {{/each}}
+</ul>

@@ -107,4 +107,3 @@ App.Router = Em.Router.extend({
     })
 });
 
-App.initialize();

@@ -1,0 +1,19 @@
+<h2>Worlds ({{controller.length}})</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Environment</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each controller}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{environment}}</td>
+            <td>{{time}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

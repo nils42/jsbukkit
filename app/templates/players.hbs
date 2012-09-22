@@ -1,0 +1,20 @@
+<h2>Players ({{controller.length}})</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Level</th>
+        <th>World</th>
+        <th>OP</th>
+        <th>Online</th>
+
+    </tr>
+    {{#each player in controller}}
+    <tr {{bindAttr class="online:info"}}>
+        <td><a {{action gotoPlayer player}}>{{player.name}}</a></td>
+        <td>{{player.level}}</td>
+        <td>{{player.worldInfo.name}}</td>
+        <td>{{player.op}}</td>
+        <td>{{player.online}}</th>
+    </tr>
+    {{/each}}
+</table>
