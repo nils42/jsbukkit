@@ -1,6 +1,10 @@
 <h4>Console</h4>
 <ul class="unstyled">
-    {{#each controller}}
-        <li>{{line}}</li>
-    {{/each}}
+    {{#if isLoading}}
+		<img src="assets/img/loader.gif"/>
+    {{else}}
+		{{#each controller}}
+			<li>{{line}}</li>
+		{{/each}}
+	{{/if}}
 </ul>

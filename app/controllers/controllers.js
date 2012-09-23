@@ -16,8 +16,16 @@ App.PluginsController = Em.ArrayController.extend();
 
 App.WorldsController = Em.ArrayController.extend();
 
-App.Players_widgetController = Em.ArrayController.extend();
+App.Players_widgetController = Em.ArrayController.extend({
+	isLoading: function() {
+		return App.players.get('loading');
+	}.property('App.players.loading')
+});
 
-App.Console_widgetController = Em.ArrayController.extend();
+App.Console_widgetController = Em.ArrayController.extend({
+	isLoading: function() {
+		return App.console.get('loading');
+	}.property('App.console.loading')
+});
 
 App.Stats_widgetController = Em.ObjectController.extend();

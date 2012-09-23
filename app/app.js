@@ -5,6 +5,9 @@ App = Em.Application.create({
         "use strict"
         Em.info('Ready!');
         App.jsonapi = new JSONAPI(CONFIG);
+		
+		App.players = App.PlayersStore.create();
+		App.console = App.ConsoleStore.create();
     }
 });
 

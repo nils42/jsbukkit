@@ -1,12 +1,12 @@
-
-App.Players = Em.Object.extend();
-App.Players.reopenClass({
-    allPlayers: [],
-
-    find: function() {
+App.PlayersStore = Em.Object.extend({
+	allPlayers: [],
+	loading: false,
+	
+	find: function() {
         var self = this;
         var method = ['getPlayers', 'getOfflinePlayers'];
         if (!this.allPlayers.length) {
+			this.set('loading', true);
             App.jsonapi.callMultiple(method, [[],[]], function(data) {
                 $.each(data.success[0].success, function(i, player) {
                     self.addPlayer(player);
@@ -14,7 +14,7 @@ App.Players.reopenClass({
                 $.each(data.success[1].success, function(i, player) {
                     self.addPlayer(player);
                 });
-                console.log(self.allPlayers);
+				self.set('loading', false);
             });
         }
 

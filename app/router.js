@@ -29,8 +29,8 @@ App.Router = Em.Router.extend({
 
                 connectOutlets: function(router) {
                     router.get('applicationController').connectOutlet('index');
-                    router.get('indexController').connectOutlet('players_widget', 'players_widget', App.Players.find());
-                    router.get('indexController').connectOutlet('console_widget', 'console_widget', App.ConsoleEntries.find());
+                    router.get('indexController').connectOutlet('players_widget', 'players_widget', App.players.find());
+                    router.get('indexController').connectOutlet('console_widget', 'console_widget', App.console.find());
                     router.get('indexController').connectOutlet('stats_widget', 'stats_widget', App.ServerStats.find());
                 },
             }),
@@ -48,7 +48,7 @@ App.Router = Em.Router.extend({
                     route: '/',
 
                     connectOutlets: function(router) {
-                        router.get('applicationController').connectOutlet('players', App.Players.find());
+                        router.get('applicationController').connectOutlet('players', App.players.find());
                     },
                 }),
 
@@ -76,7 +76,7 @@ App.Router = Em.Router.extend({
                 },
 
                 connectOutlets: function(router) {
-                    router.get('applicationController').connectOutlet('console', App.ConsoleEntries.find());
+                    router.get('applicationController').connectOutlet('console', App.console.find());
                 },
             }),
             

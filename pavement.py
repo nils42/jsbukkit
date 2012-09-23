@@ -89,6 +89,10 @@ def build():
 
         copyfileobj(open(src_dir + 'router.js', 'r'), appjs)
 
+    # uglify
+    with open(output_js_dir + 'app.min.js', 'w') as appjs:
+        appjs.write(check_output(("uglifyjs", output_js_dir + 'app.js')))
+
     copy('config.js', output_js_dir)
 
     # copy html
